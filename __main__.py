@@ -5,8 +5,6 @@ import logging
 import json
 import re
 import zigpy.types as t
-import http.server
-import socketserver
 
 # There are many different radio libraries but they all have the same API
 from zigpy_znp.zigbee.application import ControllerApplication
@@ -92,15 +90,6 @@ async def permit_join(app):
         await app.permit(254)
         await asyncio.sleep(254)
 
-class Handler(http.server.SimpleHTTPRequestHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-async def http_server(port):
-    with socketserver.TCPServer(("", port), Handler) as httpd:
-        print("serving at port", port)
-        httpd.serve_forever()
-
 async def main():
     app = ControllerApplication(ControllerApplication.SCHEMA({
         "database_path": "zigbee.db",
@@ -116,9 +105,6 @@ async def main():
 
     # Permit joins for a     
     await asyncio.create_task(permit_join(app))
-
-    # start the http server on port 8244
-    await asyncio.create_task(http_server(8244))
  
     # Just run forever
     await asyncio.get_running_loop().create_future()
