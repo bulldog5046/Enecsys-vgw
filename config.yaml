@@ -1,0 +1,25 @@
+name: "Enecsys Virtual Gateway"
+description: "Enecsys Virtual Gateway server. Listens for inverter Zigbee telemetry messages and posts them to http://127.0.0.1:8244/telemetry.json to enable them to be configured as HA sensors."
+url: "https://github.com/bulldog5046/Enecsys-vgw"
+version: "0.0.39"
+slug: "enecsys-vgw"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+
+ports:
+  8244/tcp: 8244
+
+options:
+  device: null
+
+schema:
+  device: device(subsystem=tty)
+
+uart: true
+tmpfs: true
+watchdog: http://[HOST]:[PORT:8244]/telemetry.json

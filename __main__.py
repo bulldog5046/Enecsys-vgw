@@ -80,7 +80,7 @@ class MainListener:
             self.data.update(data)
 
             # write out to file
-            with open("telemetry.json", "w") as file:
+            with open("/tmp/web/telemetry.json", "w") as file:
                 json.dump(self.data, file, indent=4)
 
 async def permit_join(app):
